@@ -8,11 +8,15 @@ private:
     int const year;
     int mileage;
     double fuelLevel;
+    double const maxFuelLevel;
+    int milesPerGallon;
 
 //methods
 public:
     //constructor
-    Car(std::string ma, std::string mod, int yr, int mi, double lvl);
+    Car(std::string ma, std::string mod, int const yr, int mi, double lvl, double const maxlvl, int mpg);
+
+    std::string carDetails();
 
     std::string getMake();
 
@@ -26,9 +30,14 @@ public:
     void setFuelLevel(double newFuelLevel);
     double getFuelLevel();
 
+    double getMaxFuelLevel();
+
+    void preDriveCheck();
+
     void drive(int miles);
 
-    void refuel(int gallons);
+    void refuel();
+
 
 };
 
