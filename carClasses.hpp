@@ -44,7 +44,7 @@ public:
 
     void refuel();
 
-
+    ~Car(); //destructor
 
 };
 
@@ -56,6 +56,12 @@ public:
     ElectricCar(std::string ma, std::string mod, int const yr, int mi, int mpg, double bat, double const maxbat = 100.0);
 
     void charge();
+
+    double getBatLvl();
+
+    void driveE(int miles);
+
+    ~ElectricCar();
 };
 
 class Garage{
@@ -68,5 +74,5 @@ class Garage{
     void displayGarage() const;
 
     std::string getHighestMileage();
-
+    ~Garage();
 };
