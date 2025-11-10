@@ -10,4 +10,4 @@ $(TARGET): $(SRC)
 clean:
 	rm -f $(TARGET)
 run: $(TARGET)
-	./$(TARGET).exe
+	./$(TARGET)

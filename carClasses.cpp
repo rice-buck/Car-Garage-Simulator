@@ -3,10 +3,17 @@
 #include <string>
 using namespace std;
 
-Car::Car(std::string ma, std::string mod, int const yr, int mi, double lvl, double const maxlvl, int mpg)
-    : make(ma), model(mod), year(yr), mileage(mi), fuelLevel(lvl), maxFuelLevel(maxlvl), milesPerGallon(mpg) {}
+// Gas car constructor
+Car::Car(std::string ma, std::string mod, int const yr, int mi, int mpg, double lvl, double const maxlvl)
+    : make(ma), model(mod), year(yr), mileage(mi),
+      fuelLevel(lvl), maxFuelLevel(maxlvl), milesPerGallon(mpg) {}
 
-    std::string Car::carDetails(){
+// Electric car constructor (no fuel)
+Car::Car(std::string ma, std::string mod, int const yr, int mi, int mpg)
+    : make(ma), model(mod), year(yr), mileage(mi),
+      fuelLevel(0), maxFuelLevel(0), milesPerGallon(mpg) {}
+
+    std::string Car::carDetails() const{
         return to_string(year) + " " + make + " " + model;
     }
 
@@ -41,8 +48,13 @@ Car::Car(std::string ma, std::string mod, int const yr, int mi, double lvl, doub
         return maxFuelLevel;
     }
 
+    double Car::getFuelPercentage(){
+        double fuelPercent = (fuelLevel / maxFuelLevel) * 100;
+        return fuelPercent;
+    }
+
     void Car::preDriveCheck(){
-        cout << carDetails() << " has " << getFuelLevel() << " gallons and " << getMileage() << " miles." << endl;
+        cout << carDetails() << " has " << getFuelLevel() << " gallons or " << getFuelPercentage() << "%. Mileage: " << getMileage() << " miles" << endl;
     }
 
     void Car::drive(int miles){
@@ -54,6 +66,39 @@ Car::Car(std::string ma, std::string mod, int const yr, int mi, double lvl, doub
 
     void Car::refuel(){
         fuelLevel = maxFuelLevel;
-        cout << "You have filled up the tank. Fuel level is " << fuelLevel << endl;
+        cout << "Car refueled. " << getFuelLevel() << " gallons or " << getFuelPercentage() << "%" << endl;
     }
 
+
+//Garage class methods
+    void Garage::addCar(Car* newCar) {
+        cars.push_back(newCar);
+}
+
+    void Garage::displayGarage()const { //prints cars in garage
+        for (const auto& c : cars) {
+    cout << c->carDetails() << endl;
+        }
+    }
+
+    std::string Garage::getHighestMileage() {
+    int previousMileage = 0;
+    std::string highestMileageCarDetails;
+
+    for (int i = 0; i < cars.size(); i++) {
+        int currentMileage = cars[i]->getMileage();
+        if (currentMileage > previousMileage) {
+            highestMileageCarDetails = cars[i]->carDetails();
+            previousMileage = currentMileage;
+        }
+    }
+    return highestMileageCarDetails + " with " + to_string(previousMileage) + " miles has the highest mileage.";
+}
+
+ElectricCar::ElectricCar(std::string ma, std::string mod, int const yr, int mi, int mpg, double bat, double const maxbat)
+     : Car(ma, mod, yr, mi, mpg), batteryLvl(bat), maxBatteryLvl(maxbat) {}
+
+     void ElectricCar::charge(){
+        batteryLvl = maxBatteryLvl;
+        cout << "You have charged the battery to " << batteryLvl << "100%";
+     }

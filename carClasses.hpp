@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 class Car{ 
 //attributes
@@ -13,10 +14,13 @@ private:
 
 //methods
 public:
-    //constructor
-    Car(std::string ma, std::string mod, int const yr, int mi, double lvl, double const maxlvl, int mpg);
+    // Full constructor (gas cars)
+    Car(std::string ma, std::string mod, int const yr, int mi, int mpg, double lvl, double const maxlvl);
 
-    std::string carDetails();
+    // Overloaded constructor (electric cars)
+    Car(std::string ma, std::string mod, int const yr, int mi, int mpg);
+
+    std::string carDetails() const;
 
     std::string getMake();
 
@@ -32,6 +36,8 @@ public:
 
     double getMaxFuelLevel();
 
+    double getFuelPercentage();
+
     void preDriveCheck();
 
     void drive(int miles);
@@ -39,10 +45,28 @@ public:
     void refuel();
 
 
+
+};
+
+class ElectricCar : public Car{
+private:
+    double batteryLvl;
+    double const maxBatteryLvl;
+public:
+    ElectricCar(std::string ma, std::string mod, int const yr, int mi, int mpg, double bat, double const maxbat = 100.0);
+
+    void charge();
 };
 
 class Garage{
-//stores cars with vector<Car>cars
+    private:
+    std::vector<Car*> cars; //stores cars
 
+    public:
+    void addCar(Car* newCar);
+
+    void displayGarage() const;
+
+    std::string getHighestMileage();
 
 };
